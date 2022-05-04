@@ -10,6 +10,14 @@ Globals:
   Function:
     Timeout: 3
 
+Parameters:
+  channelAccessToken:
+    Type: String
+    Description: line bot channel access token
+  adminLineUserId:
+    Type: String
+    Description: notification destination line user id
+
 Resources:
   HelloWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -40,3 +48,7 @@ Resources:
           Properties:
             Path: /controller
             Method: post
+      Environment:
+        Variables:
+          CHANNEL_ACCESS_TOKEN: !Ref channelAccessToken
+          ADMIN_LINE_USER_ID: !Ref adminLineUserId

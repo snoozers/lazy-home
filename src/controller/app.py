@@ -1,10 +1,29 @@
 import json
+import linebot
+from http import HTTPStatus
 
 def lambda_handler(event, context):
+    action = getActionType(event)
+    execute = {
+        'unlock': unlock(),
+        'nop': ''
+    }
+    execute[action]
+
     return {
-        "statusCode": 200,
-        "body": json.dumps({
-            "message": "一日の始まり！！！",
-            # "location": ip.text.replace("\n", "")
+        'statusCode': HTTPStatus.OK,
+        'body': json.dumps({
+            'message': print('%s was executed' % action),
         }),
     }
+
+def getActionType(event) -> str:
+    if 'action_type' in json.loads(event['body']):
+        return json.loads(event['body'])['action_type']
+
+    # TODO: linebot用のアクション
+    return 'nop'
+
+def unlock() -> None:
+    # TODO: 解錠
+    linebot.postMessage('解錠しました。')
