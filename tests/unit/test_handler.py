@@ -5,7 +5,7 @@ from src.controller import app
 @pytest.fixture()
 def gw_event():
     return {
-        "body": '{"action_type": "no match"}',
+        "body": '{"action_type": "nop"}',
         "resource": "/{proxy+}",
         "requestContext": {
             "resourceId": "123456",
