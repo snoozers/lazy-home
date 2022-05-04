@@ -63,3 +63,10 @@ Resources:
           ADMIN_LINE_USER_ID: !Ref adminLineUserId
       Layers:
         - !Ref LazyHomeLayer
+
+  ControllerFuncLogGroup:
+      Type: AWS::Logs::LogGroup
+      DependsOn: ControllerFunction
+      Properties:
+        LogGroupName: !Sub /aws/lambda/${ControllerFunction}
+        RetentionInDays: 30
