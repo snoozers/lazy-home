@@ -8,7 +8,17 @@ Description: >
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
-    Timeout: 3
+    Timeout: 10
+    Handler: app.lambda_handler
+    Runtime: python3.9
+    Architectures:
+      - x86_64
+    Layers:
+      - !Ref LazyHomeLayer
+    Environment:
+      Variables:
+        CHANNEL_ACCESS_TOKEN: !Ref channelAccessToken
+        ADMIN_LINE_USER_ID: !Ref adminLineUserId
 
 Parameters:
   channelAccessToken:
@@ -32,10 +42,6 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: src/hello_world/
-      Handler: app.lambda_handler
-      Runtime: python3.9
-      Architectures:
-        - x86_64
       Events:
         HelloWorld:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -47,22 +53,12 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: src/controller/
-      Handler: app.lambda_handler
-      Runtime: python3.9
-      Architectures:
-        - x86_64
       Events:
         Controller:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
             Path: /controller
             Method: post
-      Environment:
-        Variables:
-          CHANNEL_ACCESS_TOKEN: !Ref channelAccessToken
-          ADMIN_LINE_USER_ID: !Ref adminLineUserId
-      Layers:
-        - !Ref LazyHomeLayer
       FunctionName: ControllerFunc
 
   ControllerFuncLogGroup:
@@ -70,4 +66,4 @@ Resources:
       DependsOn: ControllerFunction
       Properties:
         LogGroupName: !Sub /aws/lambda/${ControllerFunction}
-        RetentionInDays: 30
+        RetentionInDays: 7
