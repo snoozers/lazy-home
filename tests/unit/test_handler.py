@@ -1,16 +1,11 @@
 import json
-
 import pytest
-
-from src.hello_world import app
-
+from src.controller import app
 
 @pytest.fixture()
-def apigw_event():
-    """ Generates API GW Event"""
-
+def gw_event():
     return {
-        "body": '{ "test": "body"}',
+        "body": '{"action_type": "no match"}',
         "resource": "/{proxy+}",
         "requestContext": {
             "resourceId": "123456",
@@ -34,7 +29,6 @@ def apigw_event():
             },
             "stage": "prod",
         },
-        "queryStringParameters": {"foo": "bar"},
         "headers": {
             "Via": "1.1 08f323deadbeefa7af34d5feb414ce27.cloudfront.net (CloudFront)",
             "Accept-Language": "en-US,en;q=0.8",
@@ -55,19 +49,15 @@ def apigw_event():
             "CloudFront-Forwarded-Proto": "https",
             "Accept-Encoding": "gzip, deflate, sdch",
         },
-        "pathParameters": {"proxy": "/examplepath"},
         "httpMethod": "POST",
-        "stageVariables": {"baz": "qux"},
-        "path": "/examplepath",
+        "path": "/prod/controller",
     }
 
+def test_lambda_handler(gw_event, mocker):
 
-def test_lambda_handler(apigw_event, mocker):
-
-    ret = app.lambda_handler(apigw_event, "")
+    ret = app.lambda_handler(gw_event, "")
     data = json.loads(ret["body"])
 
     assert ret["statusCode"] == 200
     assert "message" in ret["body"]
-    assert data["message"] == "deploy succeeded"
-    # assert "location" in data.dict_keys()
+    assert data["message"] == "nop was executed"
