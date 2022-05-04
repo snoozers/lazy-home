@@ -63,6 +63,7 @@ Resources:
           ADMIN_LINE_USER_ID: !Ref adminLineUserId
       Layers:
         - !Ref LazyHomeLayer
+      FunctionName: ControllerFunc
 
   ControllerFuncLogGroup:
       Type: AWS::Logs::LogGroup
