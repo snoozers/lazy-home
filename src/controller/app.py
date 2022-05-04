@@ -13,7 +13,7 @@ def lambda_handler(event, context):
     return {
         'statusCode': HTTPStatus.OK,
         'body': json.dumps({
-            'message': print('%s was executed' % action),
+            'message': f'{action} was executed'
         }),
     }
 
