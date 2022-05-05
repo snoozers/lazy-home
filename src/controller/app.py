@@ -3,11 +3,9 @@ import json
 import linebot
 
 def lambda_handler(event, context):
-    action = get_action_type(event)
-    execute = {
-        'unlock': lambda: unlock(),
-        'nop': lambda: None
-    }
+    action = get_action(event)
+    execute = get_execution()
+
     execute[action]()
 
     return {
@@ -17,16 +15,32 @@ def lambda_handler(event, context):
         }),
     }
 
-def get_action_type(event) -> str:
-    # IFTTTから実行された場合
-    if 'action_type' in json.loads(event['body']):
-        return json.loads(event['body'])['action_type']
+def get_action(event) -> str:
+    body = json.loads(event['body'])
 
-    print(event)
+    # IFTTTから実行された場合
+    if 'action_type' in body:
+        return body['action_type']
 
     # LineのWebhockで実行された場合
+    if ('events' in body
+            and body['events'][0]['message']['type'] == 'text'
+            and body['events'][0]['message']['text'] in get_execution().keys()):
+        return body['events'][0]['message']['text']
+
     return 'nop'
+
+def get_execution() -> dict:
+    return {
+        'unlock': lambda: unlock(),
+        'lock': lambda: lock(),
+        'nop': lambda: None
+    }
 
 def unlock() -> None:
     # TODO: 解錠
     linebot.post_message('解錠しました。')
+
+def lock() -> None:
+    # TODO: 施錠
+    linebot.post_message('施錠しました。')
