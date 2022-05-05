@@ -22,6 +22,8 @@ def get_action_type(event) -> str:
     if 'action_type' in json.loads(event['body']):
         return json.loads(event['body'])['action_type']
 
+    print(event)
+
     # LineのWebhockで実行された場合
     return 'nop'
 
