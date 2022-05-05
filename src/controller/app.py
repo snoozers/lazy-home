@@ -3,7 +3,7 @@ import json
 import linebot
 
 def lambda_handler(event, context):
-    action = getActionType(event)
+    action = get_action_type(event)
     execute = {
         'unlock': unlock(),
         'nop': ''
@@ -17,7 +17,7 @@ def lambda_handler(event, context):
         }),
     }
 
-def getActionType(event) -> str:
+def get_action_type(event) -> str:
     if 'action_type' in json.loads(event['body']):
         return json.loads(event['body'])['action_type']
 
@@ -26,4 +26,4 @@ def getActionType(event) -> str:
 
 def unlock() -> None:
     # TODO: 解錠
-    linebot.postMessage('解錠しました。')
+    linebot.post_message('解錠しました。')
