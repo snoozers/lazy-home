@@ -5,10 +5,10 @@ import linebot
 def lambda_handler(event, context):
     action = get_action_type(event)
     execute = {
-        'unlock': unlock(),
-        'nop': ''
+        'unlock': lambda: unlock(),
+        'nop': lambda: None
     }
-    execute[action]
+    execute[action]()
 
     return {
         'statusCode': HTTPStatus.OK,
@@ -18,10 +18,11 @@ def lambda_handler(event, context):
     }
 
 def get_action_type(event) -> str:
+    # IFTTTから実行された場合
     if 'action_type' in json.loads(event['body']):
         return json.loads(event['body'])['action_type']
 
-    # TODO: linebot用のアクション
+    # LineのWebhockで実行された場合
     return 'nop'
 
 def unlock() -> None:
