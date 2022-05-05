@@ -1,6 +1,6 @@
+from http import HTTPStatus
 import json
 import linebot
-from http import HTTPStatus
 
 def lambda_handler(event, context):
     action = getActionType(event)
