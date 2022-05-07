@@ -4,20 +4,27 @@ Comment: >-
 StartAt: Wait 1 hour
 States:
   Wait 1 hour:
-    Comment: >-
-      待機
-      TODO: 後続のラムダの処理結果に応じて再実行されるようにしたい
     Type: Wait
     Seconds: 3600
     Next: Time to wake up tomorrow?
   Time to wake up tomorrow?:
     Comment: >-
-      TODO: twitterから明日の起床時刻を取得する。取得内容に応じて、「Wait 1 hour」or「Good morning」stateに遷移
+      twitterから明日の起床時刻を取得する
+      取得結果に応じて「Wait 1 hour」or「Good morning」stateに遷移
     Type: Task
     Resource: ${WakeUpTimeFunctionArn}
-    Next: Good morning!!
-  Good morning!!:
+    Next: Not sleep yet?
+  Not sleep yet?:
     Comment: >-
-      TODO: カーテンを開く
-    Type: Pass
+      「Time to wake up tomorrow?」stateで起床時刻が取得できていない場合、「Wait 1 hour」stateに遷移
+    Type: Choice
+    Choices:
+      - Variable: $.open_curtains_at
+        IsTimestamp: true
+        Next: Good morning!!
+    Default: Wait 1 hour
+  Good morning!!:
+    Comment: カーテンを開く
+    Type: Task
+    Resource: ${OpenCurtainsFunctionArn}
     End: true
