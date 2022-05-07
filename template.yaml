@@ -13,14 +13,14 @@ Globals:
       - !Ref LazyHomeLayer
     Environment:
       Variables:
-        CHANNEL_ACCESS_TOKEN: !Ref channelAccessToken
-        ADMIN_LINE_USER_ID: !Ref adminLineUserId
+        CHANNEL_ACCESS_TOKEN: !Ref ChannelAccessToken
+        ADMIN_LINE_USER_ID: !Ref AdminLineUserId
 
 Parameters:
-  channelAccessToken:
+  ChannelAccessToken:
     Type: String
     Description: line bot channel access token
-  adminLineUserId:
+  AdminLineUserId:
     Type: String
     Description: notification destination line user id
 
