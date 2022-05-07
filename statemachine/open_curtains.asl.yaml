@@ -9,14 +9,14 @@ States:
     Next: Time to wake up tomorrow?
   Time to wake up tomorrow?:
     Comment: >-
-      twitterから明日の起床時刻を取得する
+      明日の起床時刻から、カーテンを開く時刻を算出する
       取得結果に応じて「Wait 1 hour」or「Good morning」stateに遷移
     Type: Task
     Resource: ${WakeUpTimeFunctionArn}
     Next: Not sleep yet?
   Not sleep yet?:
     Comment: >-
-      「Time to wake up tomorrow?」stateで起床時刻が取得できていない場合、「Wait 1 hour」stateに遷移
+      「Time to wake up tomorrow?」stateでカーテンを開く時刻が取得できていない場合、「Wait 1 hour」stateに遷移
     Type: Choice
     Choices:
       - Variable: $.open_curtains_at
