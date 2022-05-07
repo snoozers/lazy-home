@@ -65,7 +65,7 @@ Resources:
     DependsOn:
       - WakeUpTimeFunction
     Properties:
-      LogGroupName: !Sub /aws/lambda/${WakeUpTimeFunc}
+      LogGroupName: !Sub /aws/lambda/${WakeUpTimeFunction}
       RetentionInDays: 7
 
   OpenCurtainsStateMachine:
