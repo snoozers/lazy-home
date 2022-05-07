@@ -81,7 +81,7 @@ Resources:
           Type: Schedule
           Properties:
             Schedule: cron(0 15 * * ? *) # 毎日24:00(JST)
-      Role: !GetAtt StateMachineRole
+      Role: !GetAtt StateMachineRole.Arn
       Logging:
         Level: ALL
         IncludeExecutionData: True
