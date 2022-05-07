@@ -47,8 +47,37 @@ Resources:
       FunctionName: ControllerFunc
 
   ControllerFuncLogGroup:
-      Type: AWS::Logs::LogGroup
-      DependsOn: ControllerFunction
-      Properties:
-        LogGroupName: !Sub /aws/lambda/${ControllerFunction}
-        RetentionInDays: 7
+    Type: AWS::Logs::LogGroup
+    DependsOn:
+      - ControllerFunction
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${ControllerFunction}
+      RetentionInDays: 7
+
+  WakeUpTimeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/routine/morning/wake_up_time/
+      FunctionName: WakeUpTimeFunc
+
+  WakeUpTimeFuncLogGroup:
+    Type: AWS::Logs::LogGroup
+    DependsOn:
+      - WakeUpTimeFunction
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${WakeUpTimeFunc}
+      RetentionInDays: 7
+
+  OpenCurtainsStateMachine:
+    Type: AWS::Serverless::StateMachine
+    Properties:
+      Name: OpenCurtainsStateMachine
+      Type: STANDARD
+      DefinitionUri: statemachine/open_curtains.asl.yaml
+      DefinitionSubstitutions:
+        WakeUpTimeFunctionArn: !GetAtt WakeUpTimeFunction.Arn
+      Events:
+        Execute:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 15 * * ? *) # 毎日24:00(JST)
