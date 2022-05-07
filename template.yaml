@@ -81,3 +81,34 @@ Resources:
           Type: Schedule
           Properties:
             Schedule: cron(0 15 * * ? *) # 毎日24:00(JST)
+      Role: !GetAtt StateMachineRole
+      Logging:
+        Level: ALL
+        IncludeExecutionData: True
+        Destinations:
+          - CloudWatchLogsLogGroup:
+              LogGroupArn: !GetAtt OpenCurtainsStateMachineLogGroup.Arn
+
+  OpenCurtainsStateMachineLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName : /aws/states/OpenCurtainsStateMachine
+
+  StateMachineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - states.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Description: >-
+        Permissions required to execute step functions
+      Path: /
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaRole
+        - arn:aws:iam::aws:policy/CloudWatchLogsFullAccess
