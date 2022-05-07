@@ -108,6 +108,7 @@ Resources:
     Type: AWS::Logs::LogGroup
     Properties:
       LogGroupName : /aws/states/OpenCurtainsStateMachine
+      RetentionInDays: 7
 
   StateMachineRole:
     Type: AWS::IAM::Role
