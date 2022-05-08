@@ -59,6 +59,7 @@ Resources:
     Properties:
       CodeUri: src/routine/morning/wake_up_time/
       FunctionName: WakeUpTimeFunc
+      Role: !GetAtt StepLambdaFunctionRole.Arn
 
   WakeUpTimeFuncLogGroup:
     Type: AWS::Logs::LogGroup
@@ -73,6 +74,7 @@ Resources:
     Properties:
       CodeUri: src/routine/morning/open_curtains/
       FunctionName: OpenCurtainsFunc
+      Role: !GetAtt StepLambdaFunctionRole.Arn
 
   OpenCurtainsFuncLogGroup:
     Type: AWS::Logs::LogGroup
@@ -81,6 +83,23 @@ Resources:
     Properties:
       LogGroupName: !Sub /aws/lambda/${OpenCurtainsFunction}
       RetentionInDays: 7
+
+  StepLambdaFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: /
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - arn:aws:iam::aws:policy/AWSStepFunctionsReadOnlyAccess
 
   OpenCurtainsStateMachine:
     Type: AWS::Serverless::StateMachine
