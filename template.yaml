@@ -54,6 +54,26 @@ Resources:
       LogGroupName: !Sub /aws/lambda/${ControllerFunction}
       RetentionInDays: 7
 
+  DispatcherFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/dispatcher/
+      Events:
+        Dispatcher:
+          Type: Api
+          Properties:
+            Path: /dispatcher
+            Method: post
+      FunctionName: DispatcherFunc
+
+  DispatcherFuncLogGroup:
+    Type: AWS::Logs::LogGroup
+    DependsOn:
+      - DispatcherFunction
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${DispatcherFunction}
+      RetentionInDays: 7
+
   WakeUpTimeFunction:
     Type: AWS::Serverless::Function
     Properties:
