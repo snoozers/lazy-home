@@ -21,8 +21,12 @@ States:
     Choices:
       - Variable: $.open_curtains_at
         IsTimestamp: true
-        Next: Good morning!!
+        Next: Wait until time to open curtains
     Default: Wait 1 hour
+  Wait until time to open curtains:
+      Type: Wait
+      TimestampPath: $.open_curtains_at
+      Next: Good morning!!
   Good morning!!:
     Comment: カーテンを開く
     Type: Task
