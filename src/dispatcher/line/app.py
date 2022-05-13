@@ -18,14 +18,10 @@ def lambda_handler(event, context):
 def get_action(event) -> str:
     body = json.loads(event['body'])
 
-    # IFTTTから実行された場合
-    if 'action_type' in body:
-        return body['action_type']
+    if body['events'][0]['message']['type'] != 'text':
+        return 'nop'
 
-    # LineのWebhockで実行された場合
-    if ('events' in body
-            and body['events'][0]['message']['type'] == 'text'
-            and body['events'][0]['message']['text'] in get_execution().keys()):
+    if body['events'][0]['message']['text'] in get_execution().keys():
         return body['events'][0]['message']['text']
 
     return 'nop'

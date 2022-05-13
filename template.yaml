@@ -34,44 +34,64 @@ Resources:
     Metadata:
       BuildMethod: python3.9
 
-  ControllerFunction:
+  IftttDispatcher:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/controller/
+      CodeUri: src/dispatcher/ifttt/
       Events:
         Controller:
           Type: Api
           Properties:
-            Path: /controller
+            Path: /dispatcher/ifttt
             Method: post
-      FunctionName: ControllerFunc
+      FunctionName: IftttDispatcher
 
-  ControllerFuncLogGroup:
+  IftttDispatcherLogGroup:
     Type: AWS::Logs::LogGroup
     DependsOn:
-      - ControllerFunction
+      - IftttDispatcher
     Properties:
-      LogGroupName: !Sub /aws/lambda/${ControllerFunction}
+      LogGroupName: !Sub /aws/lambda/${IftttDispatcher}
       RetentionInDays: 7
 
-  DispatcherFunction:
+  LineDispatcher:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/dispatcher/
+      CodeUri: src/dispatcher/line/
       Events:
-        Dispatcher:
+        Controller:
           Type: Api
           Properties:
-            Path: /dispatcher
+            Path: /dispatcher/line
             Method: post
-      FunctionName: DispatcherFunc
+      FunctionName: LineDispatcher
 
-  DispatcherFuncLogGroup:
+  LineDispatcherLogGroup:
     Type: AWS::Logs::LogGroup
     DependsOn:
-      - DispatcherFunction
+      - LineDispatcher
     Properties:
-      LogGroupName: !Sub /aws/lambda/${DispatcherFunction}
+      LogGroupName: !Sub /aws/lambda/${LineDispatcher}
+      RetentionInDays: 7
+
+  TwitterDispatcher:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/dispatcher/twitter/
+      Events:
+        Controller:
+          Type: Api
+          Properties:
+            Path: /dispatcher/twitter
+            Method: post
+      FunctionName: TwitterDispatcher
+
+  TwitterDispatcherLogGroup:
+    Type: AWS::Logs::LogGroup
+    DependsOn:
+      - TwitterDispatcher
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${TwitterDispatcher}
       RetentionInDays: 7
 
   WakeUpTimeFunction:
