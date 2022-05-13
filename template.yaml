@@ -15,6 +15,8 @@ Globals:
       Variables:
         CHANNEL_ACCESS_TOKEN: !Ref ChannelAccessToken
         ADMIN_LINE_USER_ID: !Ref AdminLineUserId
+    Tags:
+      Project: lazy-home
 
 Parameters:
   ChannelAccessToken:
@@ -53,6 +55,9 @@ Resources:
     Properties:
       LogGroupName: !Sub /aws/lambda/${IftttDispatcher}
       RetentionInDays: 7
+      Tags:
+        - Key: Project
+          Value: lazy-home
 
   LineDispatcher:
     Type: AWS::Serverless::Function
@@ -73,6 +78,9 @@ Resources:
     Properties:
       LogGroupName: !Sub /aws/lambda/${LineDispatcher}
       RetentionInDays: 7
+      Tags:
+        - Key: Project
+          Value: lazy-home
 
   TwitterDispatcher:
     Type: AWS::Serverless::Function
@@ -93,6 +101,9 @@ Resources:
     Properties:
       LogGroupName: !Sub /aws/lambda/${TwitterDispatcher}
       RetentionInDays: 7
+      Tags:
+        - Key: Project
+          Value: lazy-home
 
   WakeUpTimeFunction:
     Type: AWS::Serverless::Function
@@ -108,6 +119,9 @@ Resources:
     Properties:
       LogGroupName: !Sub /aws/lambda/${WakeUpTimeFunction}
       RetentionInDays: 7
+      Tags:
+        - Key: Project
+          Value: lazy-home
 
   OpenCurtainsFunction:
     Type: AWS::Serverless::Function
@@ -123,6 +137,9 @@ Resources:
     Properties:
       LogGroupName: !Sub /aws/lambda/${OpenCurtainsFunction}
       RetentionInDays: 7
+      Tags:
+        - Key: Project
+          Value: lazy-home
 
   StepLambdaFunctionRole:
     Type: AWS::IAM::Role
@@ -140,6 +157,9 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
         - arn:aws:iam::aws:policy/AWSStepFunctionsReadOnlyAccess
+      Tags:
+        - Key: Project
+          Value: lazy-home
 
   OpenCurtainsStateMachine:
     Type: AWS::Serverless::StateMachine
@@ -162,12 +182,17 @@ Resources:
         Destinations:
           - CloudWatchLogsLogGroup:
               LogGroupArn: !GetAtt OpenCurtainsStateMachineLogGroup.Arn
+      Tags:
+        Project: lazy-home
 
   OpenCurtainsStateMachineLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
       LogGroupName : /aws/states/OpenCurtainsStateMachine
       RetentionInDays: 7
+      Tags:
+        - Key: Project
+          Value: lazy-home
 
   StateMachineRole:
     Type: AWS::IAM::Role
@@ -187,3 +212,6 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/CloudWatchLogsFullAccess
         - arn:aws:iam::aws:policy/service-role/AWSLambdaRole
+      Tags:
+        - Key: Project
+          Value: lazy-home
