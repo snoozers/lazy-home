@@ -1,6 +1,6 @@
 import json
 import pytest
-from src.controller import app
+from src.dispatcher.ifttt import app
 
 @pytest.fixture()
 def gw_event():
