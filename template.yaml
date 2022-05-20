@@ -116,7 +116,7 @@ Resources:
         Controller:
           Type: Api
           Properties:
-            Path: /dispatcher/twitter/crc
+            Path: /dispatcher/twitter
             Method: get
       Environment:
         Variables:
