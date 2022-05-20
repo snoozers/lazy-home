@@ -37,4 +37,7 @@ jobs:
           --s3-bucket lazy-home-build-source
           --capabilities CAPABILITY_IAM
           --region ap-northeast-1
-          --parameter-overrides ChannelAccessToken=${{ secrets.CHANNEL_ACCESS_TOKEN }} AdminLineUserId=${{ secrets.ADMIN_LINE_USER_ID }}
+          --parameter-overrides \
+              ChannelAccessToken=${{ secrets.CHANNEL_ACCESS_TOKEN }} \
+              AdminLineUserId=${{ secrets.ADMIN_LINE_USER_ID }} \
+              TwitterConsumerSecret=${{ secrets.TWITTER_CONSUMER_SECRET }}

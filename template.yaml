@@ -25,6 +25,9 @@ Parameters:
   AdminLineUserId:
     Type: String
     Description: notification destination line user id
+  TwitterConsumerSecret:
+    Type: String
+    Description: twitter consumer secret
 
 Resources:
   LazyHomeLayer:
@@ -101,6 +104,32 @@ Resources:
     Properties:
       LogGroupName: !Sub /aws/lambda/${TwitterDispatcher}
       RetentionInDays: 7
+      Tags:
+        - Key: Project
+          Value: lazy-home
+
+  TwitterChallengeResponseCheck:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/dispatcher/twitter/crc
+      Events:
+        Controller:
+          Type: Api
+          Properties:
+            Path: /dispatcher/twitter/crc
+            Method: get
+      Environment:
+        Variables:
+          TWITTER_CONSUMER_SECRET: !Ref TwitterConsumerSecret
+      FunctionName: TwitterChallengeResponseCheck
+
+  TwitterChallengeResponseCheckLogGroup:
+    Type: AWS::Logs::LogGroup
+    DependsOn:
+      - TwitterChallengeResponseCheck
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${TwitterChallengeResponseCheck}
+      RetentionInDays: 3
       Tags:
         - Key: Project
           Value: lazy-home
