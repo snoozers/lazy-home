@@ -40,4 +40,5 @@ jobs:
           --parameter-overrides \
             ChannelAccessToken=${{ secrets.CHANNEL_ACCESS_TOKEN }} \
             AdminLineUserId=${{ secrets.ADMIN_LINE_USER_ID }} \
-            TwitterConsumerSecret=${{ secrets.TWITTER_CONSUMER_SECRET }}
+            TwitterConsumerSecret=${{ secrets.TWITTER_CONSUMER_SECRET }} \
+            OpenCurtainsStateMachineArn=${{ secrets.OPEN_CURTAINS_STATE_MACHINE_ARN }}

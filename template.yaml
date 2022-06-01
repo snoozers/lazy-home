@@ -28,6 +28,8 @@ Parameters:
   TwitterConsumerSecret:
     Type: String
     Description: twitter consumer secret
+  OpenCurtainsStateMachineArn:
+    Type: String
 
 Resources:
   LazyHomeLayer:
@@ -158,6 +160,9 @@ Resources:
       CodeUri: src/routine/morning/open_curtains/
       FunctionName: OpenCurtainsFunc
       Role: !GetAtt StepLambdaFunctionRole.Arn
+      Environment:
+        Variables:
+          OPEN_CURTAINS_STATE_MACHINE_ARN: !Ref OpenCurtainsStateMachineArn
 
   OpenCurtainsFuncLogGroup:
     Type: AWS::Logs::LogGroup
