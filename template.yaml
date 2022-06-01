@@ -136,24 +136,6 @@ Resources:
         - Key: Project
           Value: lazy-home
 
-  WakeUpTimeFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: src/routine/morning/wake_up_time/
-      FunctionName: WakeUpTimeFunc
-      Role: !GetAtt StepLambdaFunctionRole.Arn
-
-  WakeUpTimeFuncLogGroup:
-    Type: AWS::Logs::LogGroup
-    DependsOn:
-      - WakeUpTimeFunction
-    Properties:
-      LogGroupName: !Sub /aws/lambda/${WakeUpTimeFunction}
-      RetentionInDays: 7
-      Tags:
-        - Key: Project
-          Value: lazy-home
-
   OpenCurtainsFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -202,7 +184,6 @@ Resources:
       Type: STANDARD
       DefinitionUri: statemachine/open_curtains.asl.yaml
       DefinitionSubstitutions:
-        WakeUpTimeFunctionArn: !GetAtt WakeUpTimeFunction.Arn
         OpenCurtainsFunctionArn: !GetAtt OpenCurtainsFunction.Arn
       Events:
         Execute:

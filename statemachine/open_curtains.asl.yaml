@@ -1,28 +1,8 @@
 Comment: >-
   State machine that automatically opens the curtains
   according to the time set for the morning alarm
-StartAt: Wait 1 hour
+StartAt: Wait until time to open curtains
 States:
-  Wait 1 hour:
-    Type: Wait
-    Seconds: 3600
-    Next: Time to wake up tomorrow?
-  Time to wake up tomorrow?:
-    Comment: >-
-      明日の起床時刻から、カーテンを開く時刻を算出する
-      取得結果に応じて「Wait 1 hour」or「Good morning」stateに遷移
-    Type: Task
-    Resource: ${WakeUpTimeFunctionArn}
-    Next: Not sleep yet?
-  Not sleep yet?:
-    Comment: >-
-      「Time to wake up tomorrow?」stateでカーテンを開く時刻が取得できていない場合、「Wait 1 hour」stateに遷移
-    Type: Choice
-    Choices:
-      - Variable: $.open_curtains_at
-        IsTimestamp: true
-        Next: Wait until time to open curtains
-    Default: Wait 1 hour
   Wait until time to open curtains:
       Type: Wait
       TimestampPath: $.open_curtains_at
