@@ -97,6 +97,9 @@ Resources:
           Properties:
             Path: /dispatcher/twitter
             Method: post
+      Environment:
+        Variables:
+          OPEN_CURTAINS_STATE_MACHINE_ARN: !Ref OpenCurtainsStateMachineArn
       FunctionName: TwitterDispatcher
 
   TwitterDispatcherLogGroup:
@@ -142,9 +145,6 @@ Resources:
       CodeUri: src/routine/morning/open_curtains/
       FunctionName: OpenCurtainsFunc
       Role: !GetAtt StepLambdaFunctionRole.Arn
-      Environment:
-        Variables:
-          OPEN_CURTAINS_STATE_MACHINE_ARN: !Ref OpenCurtainsStateMachineArn
 
   OpenCurtainsFuncLogGroup:
     Type: AWS::Logs::LogGroup
