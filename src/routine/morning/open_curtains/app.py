@@ -1,7 +1,6 @@
 import linebot
+from switchbot import LivingCurtains
 
 def lambda_handler(event, context):
-    # TODO: カーテンを開く処理
+    LivingCurtains().open()
     linebot.post_message('カーテンを開きました')
-    print(event)
-    print(context)

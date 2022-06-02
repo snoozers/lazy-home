@@ -15,6 +15,7 @@ Globals:
       Variables:
         CHANNEL_ACCESS_TOKEN: !Ref ChannelAccessToken
         ADMIN_LINE_USER_ID: !Ref AdminLineUserId
+        SWITCH_BOT_OPEN_TOKEN: !Ref SwitchBotOpenToken
     Tags:
       Project: lazy-home
 
@@ -25,6 +26,8 @@ Parameters:
   AdminLineUserId:
     Type: String
     Description: notification destination line user id
+  SwitchBotOpenToken:
+    Type: String
   TwitterConsumerSecret:
     Type: String
     Description: twitter consumer secret
