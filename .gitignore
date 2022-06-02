@@ -246,5 +246,5 @@ $RECYCLE.BIN/
 .aws-sam/*
 events/*
 !events/event.json.example
-images/*
+static/local/*
 env.json
