@@ -101,6 +101,7 @@ Resources:
         Variables:
           OPEN_CURTAINS_STATE_MACHINE_ARN: !Ref OpenCurtainsStateMachineArn
       FunctionName: TwitterDispatcher
+      Role: !GetAtt LambdaFunctionRole.Arn
 
   TwitterDispatcherLogGroup:
     Type: AWS::Logs::LogGroup
@@ -144,7 +145,7 @@ Resources:
     Properties:
       CodeUri: src/routine/morning/open_curtains/
       FunctionName: OpenCurtains
-      Role: !GetAtt StepLambdaFunctionRole.Arn
+      Role: !GetAtt LambdaFunctionRole.Arn
 
   OpenCurtainsFuncLogGroup:
     Type: AWS::Logs::LogGroup
@@ -157,7 +158,7 @@ Resources:
         - Key: Project
           Value: lazy-home
 
-  StepLambdaFunctionRole:
+  LambdaFunctionRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
@@ -172,7 +173,7 @@ Resources:
       Path: /
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
-        - arn:aws:iam::aws:policy/AWSStepFunctionsReadOnlyAccess
+        - arn:aws:iam::aws:policy/AWSStepFunctionsFullAccess
       Tags:
         - Key: Project
           Value: lazy-home
