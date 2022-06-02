@@ -134,7 +134,7 @@ Resources:
       - TwitterChallengeResponseCheck
     Properties:
       LogGroupName: !Sub /aws/lambda/${TwitterChallengeResponseCheck}
-      RetentionInDays: 3
+      RetentionInDays: 1
       Tags:
         - Key: Project
           Value: lazy-home
@@ -143,7 +143,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: src/routine/morning/open_curtains/
-      FunctionName: OpenCurtainsFunc
+      FunctionName: OpenCurtains
       Role: !GetAtt StepLambdaFunctionRole.Arn
 
   OpenCurtainsFuncLogGroup:
@@ -185,11 +185,6 @@ Resources:
       DefinitionUri: statemachine/open_curtains.asl.yaml
       DefinitionSubstitutions:
         OpenCurtainsFunctionArn: !GetAtt OpenCurtainsFunction.Arn
-      Events:
-        Execute:
-          Type: Schedule
-          Properties:
-            Schedule: cron(0 15 * * ? *) # 毎日24:00(JST)
       Role: !GetAtt StateMachineRole.Arn
       Logging:
         Level: ALL
