@@ -5,6 +5,8 @@
 [![Deploy application](https://github.com/snoozers/lazy-home/actions/workflows/deployer.yml/badge.svg)](https://github.com/snoozers/lazy-home/actions/workflows/deployer.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/f4010af9ce04462cae08a696512d54c1)](https://www.codacy.com/gh/snoozers/lazy-home/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=snoozers/lazy-home&amp;utm_campaign=Badge_Grade)
 
+<img src="./static/public/images/lazy-home.png" width="100%">
+
 This project contains source code and supporting files for a serverless application that you can deploy with the SAM CLI. It includes the following files and folders.
 
 - hello_world - Code for the application's Lambda function.
