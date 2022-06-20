@@ -31,8 +31,6 @@ Parameters:
   TwitterConsumerSecret:
     Type: String
     Description: twitter consumer secret
-  OpenCurtainsStateMachineArn:
-    Type: String
 
 Resources:
   LazyHomeLayer:
@@ -102,7 +100,7 @@ Resources:
             Method: post
       Environment:
         Variables:
-          OPEN_CURTAINS_STATE_MACHINE_ARN: !Ref OpenCurtainsStateMachineArn
+          OPEN_CURTAINS_STATE_MACHINE_ARN: !Ref OpenCurtainsStateMachine
       FunctionName: TwitterDispatcher
       Role: !GetAtt LambdaFunctionRole.Arn
 
