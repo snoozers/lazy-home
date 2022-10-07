@@ -42,4 +42,6 @@ jobs:
             AdminLineUserId=${{ secrets.ADMIN_LINE_USER_ID }} \
             SwitchBotOpenToken=${{ secrets.SWITCH_BOT_OPEN_TOKEN }} \
             TwitterConsumerSecret=${{ secrets.TWITTER_CONSUMER_SECRET }} \
-            OpenCurtainsStateMachineArn=${{ secrets.OPEN_CURTAINS_STATE_MACHINE_ARN }}
+            SesamiApiKey=${{ secrets.SESAMI_API_KEY }} \
+            SesamiDeviceUuid=${{ secrets.SESAMI_DEVICE_UUID }} \
+            SesamiDeviceSecret=${{ secrets.SESAMI_DEVICE_SECRET }}

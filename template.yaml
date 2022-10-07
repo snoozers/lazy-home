@@ -10,12 +10,16 @@ Globals:
     Architectures:
       - x86_64
     Layers:
+      - arn:aws:lambda:ap-northeast-1:770693421928:layer:Klayers-p38-pycryptodome:2
       - !Ref LazyHomeLayer
     Environment:
       Variables:
         CHANNEL_ACCESS_TOKEN: !Ref ChannelAccessToken
         ADMIN_LINE_USER_ID: !Ref AdminLineUserId
         SWITCH_BOT_OPEN_TOKEN: !Ref SwitchBotOpenToken
+        SESAMI_API_KEY: !Ref SesamiApiKey
+        SESAMI_DEVICE_UUID: !Ref SesamiDeviceUuid
+        SESAMI_DEVICE_SECRET: !Ref SesamiDeviceSecret
     Tags:
       Project: lazy-home
 
@@ -31,7 +35,11 @@ Parameters:
   TwitterConsumerSecret:
     Type: String
     Description: twitter consumer secret
-  OpenCurtainsStateMachineArn:
+  SesamiApiKey:
+    Type: String
+  SesamiDeviceUuid:
+    Type: String
+  SesamiDeviceSecret:
     Type: String
 
 Resources:
@@ -102,7 +110,7 @@ Resources:
             Method: post
       Environment:
         Variables:
-          OPEN_CURTAINS_STATE_MACHINE_ARN: !Ref OpenCurtainsStateMachineArn
+          OPEN_CURTAINS_STATE_MACHINE_ARN: !Ref OpenCurtainsStateMachine
       FunctionName: TwitterDispatcher
       Role: !GetAtt LambdaFunctionRole.Arn
 
