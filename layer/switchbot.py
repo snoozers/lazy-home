@@ -2,9 +2,9 @@ import json
 import os
 import requests
 
-BASE_END_POINT = 'https://api.switch-bot.com'
+BASE_END_POINT = 'https://api.switch-bot.com/v1.0'
 devices = requests.get(
-    url=BASE_END_POINT + '/v1.0/devices',
+    url=BASE_END_POINT + '/devices',
     headers={
         'Authorization': os.environ['SWITCH_BOT_OPEN_TOKEN']
     }
@@ -18,10 +18,10 @@ class LivingCurtains():
                 break
         self.__devices_ids = devices['deviceList'][key]['curtainDevicesIds']
 
-    def open(self):
+    def open(self) -> None:
         for device_id in self.__devices_ids:
             requests.post(
-                url='%s/v1.0/devices/%s/commands' % (BASE_END_POINT, device_id),
+                url=f'{BASE_END_POINT}/devices/{device_id}/commands',
                 headers={
                     'Authorization': os.environ['SWITCH_BOT_OPEN_TOKEN'],
                     'Content-Type': 'application/json; charset=utf8',
@@ -32,3 +32,33 @@ class LivingCurtains():
                     'commandType': 'command'
                 })
             )
+
+class InfraredRemoteDevice():
+    def __init__(self, deviceName:str):
+        for k, v in enumerate(devices['infraredRemoteList']):
+            if v['deviceName'] == deviceName:
+                key = k
+                break
+        self.__devices_id = devices['infraredRemoteList'][key]['deviceId']
+
+    def turn_off(self) -> None:
+        requests.post(
+            url=f'{BASE_END_POINT}/devices/{self.__devices_id}/commands',
+            headers={
+                'Authorization': os.environ['SWITCH_BOT_OPEN_TOKEN'],
+                'Content-Type': 'application/json; charset=utf8',
+            },
+            data=json.dumps({
+                'command': 'turnOff',
+                'parameter': 'default',
+                'commandType': ''
+            })
+        )
+
+class LivingAirConditioner(InfraredRemoteDevice):
+    def __init__(self):
+        super().__init__('エアコン')
+
+class LivingLight(InfraredRemoteDevice):
+    def __init__(self):
+        super().__init__('ライト')

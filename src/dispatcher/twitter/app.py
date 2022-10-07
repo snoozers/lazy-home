@@ -3,8 +3,8 @@ from http import HTTPStatus
 import json
 import os
 import re
-from time import strftime
 import boto3
+from switchbot import LivingAirConditioner, LivingLight
 
 def lambda_handler(event:dict, context:dict) -> dict:
     tweet = json.loads(event['body'])['tweet_create_events'][0]
@@ -12,6 +12,8 @@ def lambda_handler(event:dict, context:dict) -> dict:
 
     if '就寝' in hashtags:
         execute_open_curtains_state_machine(get_utc_open_curtains_at(tweet))
+    elif '入眠' in hashtags:
+        turn_off_all()
 
     return {
         'statusCode': HTTPStatus.OK
@@ -46,3 +48,7 @@ def execute_open_curtains_state_machine(open_curtains_at: datetime) -> None:
             'open_curtains_at': open_curtains_at.strftime('%Y-%m-%dT%H:%M:%SZ')
         })
     )
+
+def turn_off_all() -> None:
+    LivingAirConditioner().turn_off()
+    LivingLight().turn_off()
