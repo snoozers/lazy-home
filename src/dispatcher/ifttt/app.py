@@ -31,4 +31,4 @@ def get_execution() -> dict:
     }
 
 def unlock() -> None:
-    linebot.post_message('解錠しました。') if sesami.unlock() else linebot.post_message('エラーが発生しました。')
+    linebot.post_message('解錠しました') if sesami.unlock() else linebot.post_message('エラーが発生しました')
