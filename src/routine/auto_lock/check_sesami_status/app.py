@@ -1,4 +1,5 @@
 import linebot
+from sesami import Key
 
 def lambda_handler(event, context):
-    linebot.post_message('TODO: セサミの開閉状態を取得する')
+    linebot.post_message('セサミの開閉状態: ' + Key().fetch().status())

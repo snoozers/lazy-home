@@ -21,6 +21,19 @@ class Key():
         # unlock
         return self.executeCommand(83) == HTTPStatus.OK
 
+    def status(self) -> str:
+        # locked | unlocked | moved
+        return self.__status
+
+    def fetch(self):
+        res = requests.get(
+            url=f'{BASE_END_POINT}/{DEVICE_UUID}',
+            headers={'x-api-key': API_KEY}
+        )
+        self.__status = res.CHSesame2Status
+
+        return self
+
     def executeCommand(cmd:int) -> int:
         base64_history = base64.b64encode('IFTTT button'.encode('utf-8')).decode()
 
