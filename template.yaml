@@ -151,6 +151,42 @@ Resources:
         - Key: Project
           Value: lazy-home
 
+  CheckSesamiStatusFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/routine/auto_lock/check_sesami_status/
+      FunctionName: CheckSesamiStatus
+      Role: !GetAtt LambdaFunctionRole.Arn
+
+  CheckSesamiStatusFuncLogGroup:
+    Type: AWS::Logs::LogGroup
+    DependsOn:
+      - CheckSesamiStatusFunction
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${CheckSesamiStatusFunction}
+      RetentionInDays: 3
+      Tags:
+        - Key: Project
+          Value: lazy-home
+
+  NotifyDoorOpeningFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/routine/auto_lock/notify_door_opening/
+      FunctionName: NotifyDoorOpeningFunction
+      Role: !GetAtt LambdaFunctionRole.Arn
+
+  NotifyDoorOpeningLogGroup:
+    Type: AWS::Logs::LogGroup
+    DependsOn:
+      - NotifyDoorOpeningFunction
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${NotifyDoorOpeningFunction}
+      RetentionInDays: 3
+      Tags:
+        - Key: Project
+          Value: lazy-home
+
   OpenCurtainsFunction:
     Type: AWS::Serverless::Function
     Properties:
