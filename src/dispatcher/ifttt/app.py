@@ -1,7 +1,7 @@
 from http import HTTPStatus
 import json
 import linebot
-import sesami
+from sesami import Key
 
 def lambda_handler(event, context):
     action = get_action(event)
@@ -31,4 +31,4 @@ def get_execution() -> dict:
     }
 
 def unlock() -> None:
-    linebot.post_message('解錠しました') if sesami.unlock() else linebot.post_message('エラーが発生しました')
+    linebot.post_message('解錠しました') if Key().unlock() else linebot.post_message('鍵の解錠に失敗しました')

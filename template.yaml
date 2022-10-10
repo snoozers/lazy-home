@@ -151,6 +151,24 @@ Resources:
         - Key: Project
           Value: lazy-home
 
+  LockSesamiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/routine/auto_lock/lock_sesami/
+      FunctionName: LockSesami
+      Role: !GetAtt LambdaFunctionRole.Arn
+
+  LockSesamiFuncLogGroup:
+    Type: AWS::Logs::LogGroup
+    DependsOn:
+      - LockSesamiFunction
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${LockSesamiFunction}
+      RetentionInDays: 3
+      Tags:
+        - Key: Project
+          Value: lazy-home
+
   CheckSesamiStatusFunction:
     Type: AWS::Serverless::Function
     Properties:
