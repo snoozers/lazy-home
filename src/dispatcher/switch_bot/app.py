@@ -13,8 +13,7 @@ def lambda_handler(event:dict, context:dict) -> None:
             messages=[{
                 'messageId': str(int(time.time())),
                 'inputName': 'front_door_input',
-                'payload': bytes(json.dumps({"door": {"event": openState}}), 'utf-8'),
-                'timestamp': {'timeInMillis': int(time.time())}
+                'payload': bytes(json.dumps({"door": {"event": openState}}), 'utf-8')
             }]
         )
         if res.status_code != HTTPStatus.OK:
