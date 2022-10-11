@@ -34,7 +34,7 @@ class Key():
 
         return self
 
-    def executeCommand(cmd:int) -> int:
+    def executeCommand(self, cmd:int) -> int:
         base64_history = base64.b64encode('IFTTT button'.encode('utf-8')).decode()
 
         timestamp = int(datetime.datetime.now().timestamp())
