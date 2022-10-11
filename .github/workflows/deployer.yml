@@ -44,6 +44,7 @@ jobs:
             ChannelAccessToken=${{ secrets.CHANNEL_ACCESS_TOKEN }} \
             AdminLineUserId=${{ secrets.ADMIN_LINE_USER_ID }} \
             SwitchBotOpenToken=${{ secrets.SWITCH_BOT_OPEN_TOKEN }} \
+            SwitchBotClientSecret=${{ secrets.SWITCH_BOT_CLIENT_SECRET }} \
             TwitterConsumerSecret=${{ secrets.TWITTER_CONSUMER_SECRET }} \
             SesamiApiKey=${{ secrets.SESAMI_API_KEY }} \
             SesamiDeviceUuid=${{ secrets.SESAMI_DEVICE_UUID }} \

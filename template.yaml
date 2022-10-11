@@ -17,6 +17,7 @@ Globals:
         CHANNEL_ACCESS_TOKEN: !Ref ChannelAccessToken
         ADMIN_LINE_USER_ID: !Ref AdminLineUserId
         SWITCH_BOT_OPEN_TOKEN: !Ref SwitchBotOpenToken
+        SWITCH_BOT_CLIENT_SECRET: !Ref SwitchBotClientSecret
         SESAMI_API_KEY: !Ref SesamiApiKey
         SESAMI_DEVICE_UUID: !Ref SesamiDeviceUuid
         SESAMI_DEVICE_SECRET: !Ref SesamiDeviceSecret
@@ -31,6 +32,8 @@ Parameters:
     Type: String
     Description: notification destination line user id
   SwitchBotOpenToken:
+    Type: String
+  SwitchBotClientSecret:
     Type: String
   TwitterConsumerSecret:
     Type: String
