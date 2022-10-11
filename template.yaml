@@ -100,6 +100,28 @@ Resources:
       Tags:
         - Key: Project
           Value: lazy-home
+  SwitchBotDispatcher:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/dispatcher/switch_bot/
+      Events:
+        Controller:
+          Type: Api
+          Properties:
+            Path: /dispatcher/switch_bot
+            Method: post
+      FunctionName: SwitchBotDispatcher
+
+  SwitchBotDispatcherLogGroup:
+    Type: AWS::Logs::LogGroup
+    DependsOn:
+      - SwitchBotDispatcher
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${SwitchBotDispatcher}
+      RetentionInDays: 7
+      Tags:
+        - Key: Project
+          Value: lazy-home
 
   TwitterDispatcher:
     Type: AWS::Serverless::Function
