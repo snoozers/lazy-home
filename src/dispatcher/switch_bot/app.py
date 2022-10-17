@@ -5,11 +5,14 @@ import boto3
 import linebot
 
 def lambda_handler(event:dict, context:dict) -> None:
+    body = json.loads(event['body'])['context']
+    if 'openState' not in body:
+        return
+
     # open | close | timeOutNotClose"
-    openState = json.loads(event['body'])['context']['openState']
-    client = boto3.client('iotevents-data')
+    openState = body['openState']
     if openState in ['open', 'close']:
-        res = client.batch_put_message(
+        res = boto3.client('iotevents-data').batch_put_message(
             messages=[{
                 'messageId': str(int(time.time())),
                 'inputName': 'front_door_input',
