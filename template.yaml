@@ -111,6 +111,7 @@ Resources:
             Path: /dispatcher/switch_bot
             Method: post
       FunctionName: SwitchBotDispatcher
+      Role: !GetAtt LambdaFunctionRole.Arn
 
   SwitchBotDispatcherLogGroup:
     Type: AWS::Logs::LogGroup
@@ -246,6 +247,7 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
         - arn:aws:iam::aws:policy/AWSStepFunctionsFullAccess
+        - arn:aws:iam::aws:policy/AWSIoTEventsFullAccess
       Tags:
         - Key: Project
           Value: lazy-home
