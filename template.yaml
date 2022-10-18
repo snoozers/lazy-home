@@ -73,7 +73,7 @@ Resources:
       - IftttDispatcher
     Properties:
       LogGroupName: !Sub /aws/lambda/${IftttDispatcher}
-      RetentionInDays: 7
+      RetentionInDays: 3
       Tags:
         - Key: Project
           Value: lazy-home
@@ -96,7 +96,7 @@ Resources:
       - LineDispatcher
     Properties:
       LogGroupName: !Sub /aws/lambda/${LineDispatcher}
-      RetentionInDays: 7
+      RetentionInDays: 3
       Tags:
         - Key: Project
           Value: lazy-home
@@ -119,7 +119,7 @@ Resources:
       - SwitchBotDispatcher
     Properties:
       LogGroupName: !Sub /aws/lambda/${SwitchBotDispatcher}
-      RetentionInDays: 7
+      RetentionInDays: 3
       Tags:
         - Key: Project
           Value: lazy-home
@@ -146,7 +146,7 @@ Resources:
       - TwitterDispatcher
     Properties:
       LogGroupName: !Sub /aws/lambda/${TwitterDispatcher}
-      RetentionInDays: 7
+      RetentionInDays: 3
       Tags:
         - Key: Project
           Value: lazy-home
@@ -226,7 +226,7 @@ Resources:
       - OpenCurtainsFunction
     Properties:
       LogGroupName: !Sub /aws/lambda/${OpenCurtainsFunction}
-      RetentionInDays: 7
+      RetentionInDays: 3
       Tags:
         - Key: Project
           Value: lazy-home
@@ -274,7 +274,7 @@ Resources:
     Type: AWS::Logs::LogGroup
     Properties:
       LogGroupName : /aws/states/OpenCurtainsStateMachine
-      RetentionInDays: 7
+      RetentionInDays: 3
       Tags:
         - Key: Project
           Value: lazy-home
