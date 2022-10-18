@@ -2,10 +2,12 @@ import json
 import requests
 import base64
 import datetime
+import time
 import os
 from Crypto.Hash import CMAC
 from Crypto.Cipher import AES
 from http import HTTPStatus
+import boto3
 
 BASE_END_POINT = 'https://app.candyhouse.co/api/sesame2'
 API_KEY = os.environ['SESAMI_API_KEY']
@@ -19,7 +21,17 @@ class Key():
 
     def unlock(self) -> bool:
         # unlock
-        return self.executeCommand(83) == HTTPStatus.OK
+        success = self.executeCommand(83) == HTTPStatus.OK
+        if success:
+            boto3.client('iotevents-data').batch_put_message(
+                messages=[{
+                    'messageId': str(int(time.time())),
+                    'inputName': 'front_door_input',
+                    'payload': bytes(json.dumps({'key': {'event': 'unlock'}}), 'utf-8')
+                }]
+            )
+
+        return success
 
     def status(self) -> str:
         # locked | unlocked | moved
