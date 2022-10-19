@@ -21,3 +21,5 @@ def lambda_handler(event:dict, context:dict) -> None:
         )
         if res.status_code != HTTPStatus.OK:
             linebot.post_message('batch_put_messageの操作に失敗')
+    elif openState == 'timeOutNotClose':
+        linebot.post_message('ドアが開きっぱなしになっています')
