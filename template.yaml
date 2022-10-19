@@ -66,6 +66,7 @@ Resources:
             Path: /dispatcher/ifttt
             Method: post
       FunctionName: IftttDispatcher
+      Role: !GetAtt LambdaFunctionRole.Arn
 
   IftttDispatcherLogGroup:
     Type: AWS::Logs::LogGroup
