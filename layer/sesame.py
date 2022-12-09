@@ -10,9 +10,9 @@ from http import HTTPStatus
 import boto3
 
 BASE_END_POINT = 'https://app.candyhouse.co/api/sesame2'
-API_KEY = os.environ['SESAMI_API_KEY']
-DEVICE_UUID = os.environ['SESAMI_DEVICE_UUID']
-DEVICE_SECRET = os.environ['SESAMI_DEVICE_SECRET']
+API_KEY = os.environ['SESAME_API_KEY']
+DEVICE_UUID = os.environ['SESAME_DEVICE_UUID']
+DEVICE_SECRET = os.environ['SESAME_DEVICE_SECRET']
 
 class Key():
     def lock(self) -> bool:

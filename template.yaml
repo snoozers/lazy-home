@@ -18,9 +18,9 @@ Globals:
         ADMIN_LINE_USER_ID: !Ref AdminLineUserId
         SWITCH_BOT_OPEN_TOKEN: !Ref SwitchBotOpenToken
         SWITCH_BOT_CLIENT_SECRET: !Ref SwitchBotClientSecret
-        SESAMI_API_KEY: !Ref SesamiApiKey
-        SESAMI_DEVICE_UUID: !Ref SesamiDeviceUuid
-        SESAMI_DEVICE_SECRET: !Ref SesamiDeviceSecret
+        SESAME_API_KEY: !Ref SesameApiKey
+        SESAME_DEVICE_UUID: !Ref SesameDeviceUuid
+        SESAME_DEVICE_SECRET: !Ref SesameDeviceSecret
     Tags:
       Project: lazy-home
 
@@ -38,11 +38,11 @@ Parameters:
   TwitterConsumerSecret:
     Type: String
     Description: twitter consumer secret
-  SesamiApiKey:
+  SesameApiKey:
     Type: String
-  SesamiDeviceUuid:
+  SesameDeviceUuid:
     Type: String
-  SesamiDeviceSecret:
+  SesameDeviceSecret:
     Type: String
 
 Resources:
@@ -178,19 +178,19 @@ Resources:
         - Key: Project
           Value: lazy-home
 
-  LockSesamiFunction:
+  LockSesameFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/routine/auto_lock/lock_sesami/
-      FunctionName: LockSesami
+      CodeUri: src/routine/auto_lock/lock_sesame/
+      FunctionName: LockSesame
       Role: !GetAtt LambdaFunctionRole.Arn
 
-  LockSesamiFuncLogGroup:
+  LockSesameFuncLogGroup:
     Type: AWS::Logs::LogGroup
     DependsOn:
-      - LockSesamiFunction
+      - LockSesameFunction
     Properties:
-      LogGroupName: !Sub /aws/lambda/${LockSesamiFunction}
+      LogGroupName: !Sub /aws/lambda/${LockSesameFunction}
       RetentionInDays: 3
       Tags:
         - Key: Project

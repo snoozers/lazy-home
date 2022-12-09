@@ -1,7 +1,7 @@
 from http import HTTPStatus
 import json
 import linebot
-from sesami import Key
+from sesame import Key
 
 def lambda_handler(event, context):
     action = get_action(event)

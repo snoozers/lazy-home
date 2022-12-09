@@ -46,6 +46,6 @@ jobs:
             SwitchBotOpenToken=${{ secrets.SWITCH_BOT_OPEN_TOKEN }} \
             SwitchBotClientSecret=${{ secrets.SWITCH_BOT_CLIENT_SECRET }} \
             TwitterConsumerSecret=${{ secrets.TWITTER_CONSUMER_SECRET }} \
-            SesamiApiKey=${{ secrets.SESAMI_API_KEY }} \
-            SesamiDeviceUuid=${{ secrets.SESAMI_DEVICE_UUID }} \
-            SesamiDeviceSecret=${{ secrets.SESAMI_DEVICE_SECRET }}
+            SesameApiKey=${{ secrets.SESAME_API_KEY }} \
+            SesameDeviceUuid=${{ secrets.SESAME_DEVICE_UUID }} \
+            SesameDeviceSecret=${{ secrets.SESAME_DEVICE_SECRET }}

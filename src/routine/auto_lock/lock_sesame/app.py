@@ -1,4 +1,4 @@
-from sesami import Key
+from sesame import Key
 import linebot
 
 def lambda_handler(event, context):
