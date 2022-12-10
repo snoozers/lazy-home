@@ -301,3 +301,139 @@ Resources:
       Tags:
         - Key: Project
           Value: lazy-home
+
+  FrontDoorDetector:
+    Type: AWS::IoTEvents::DetectorModel
+    Properties:
+      DetectorModelDefinition:
+        InitialStateName: closed
+        States:
+          - StateName: unlocked
+            OnInput:
+              Events: []
+              TransitionEvents:
+                - EventName: the_door_was_opened
+                  Condition: $input.front_door_input.door.event == 'open'
+                  Actions:
+                    - SetTimer:
+                        TimerName: left_open_timer
+                        Seconds: 60
+                  NextState: opened
+                - EventName: left_unlock
+                  Condition: timeout("left_unlock_timer")
+                  Actions: []
+                  NextState: closed
+            OnEnter:
+              Events:
+                - EventName: set_left_unlock_timer
+                  Condition: 'true'
+                  Actions:
+                    - SetTimer:
+                        TimerName: left_unlock_timer
+                        Seconds: 60
+            OnExit:
+              Events:
+                - EventName: delete_left_unlock_timer
+                  Condition: 'true'
+                  Actions:
+                    - ClearTimer:
+                        TimerName: left_unlock_timer
+          - StateName: opened
+            OnInput:
+              Events:
+                - EventName: notify_alert
+                  Condition: timeout("left_open_timer")
+                  Actions:
+                    - Lambda:
+                        FunctionArn: !GetAtt NotifyDoorOpeningFunction.Arn
+              TransitionEvents:
+                - EventName: the_door_was_closed
+                  Condition: $input.front_door_input.door.event == 'close'
+                  Actions: []
+                  NextState: closed
+            OnEnter:
+              Events:
+                - EventName: set_left_open_timer
+                  Condition: 'true'
+                  Actions:
+                    - SetTimer:
+                        TimerName: left_open_timer
+                        Seconds: 60
+            OnExit:
+              Events:
+                - EventName: delete_left_open_timer
+                  Condition: 'true'
+                  Actions:
+                    - ClearTimer:
+                        TimerName: left_open_timer
+          - StateName: closed
+            OnInput:
+              Events: []
+              TransitionEvents:
+                - EventName: the_door_was_opened
+                  Condition: $input.front_door_input.door.event == 'open'
+                  Actions: []
+                  NextState: opened
+                - EventName: unlocked_remotely
+                  Condition: $input.front_door_input.key.event == 'unlock'
+                  Actions: []
+                  NextState: unlocked
+            OnEnter:
+              Events:
+                - EventName: lock_automatically
+                  Condition: 'true'
+                  Actions:
+                    - Lambda:
+                        FunctionArn: !GetAtt LockSesameFunction.Arn
+            OnExit:
+              Events: []
+      DetectorModelName: front_door
+      EvaluationMethod: BATCH
+      RoleArn: !GetAtt IotEventsRole.Arn
+      Tags:
+        - Key: Project
+          Value: lazy-home
+
+  FrontDoorInput:
+    Type: AWS::IoTEvents::Input
+    Properties:
+      InputDefinition:
+        Attributes:
+          - JsonPath: door.event
+          - JsonPath: key.event
+      InputDescription: Inputs used to manage the condition of the entrance
+      InputName: front_door_input
+      Tags:
+        - Key: Project
+          Value: lazy-home
+
+  IotEventsRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - iotevents.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: /
+      MaxSessionDuration: 3600
+      Policies:
+        - PolicyName: IotEvents
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - iotevents:BatchPutMessage
+                Resource: '*'
+              - Effect: Allow
+                Action:
+                  - lambda:InvokeFunction
+                Resource: '*'
+      Tags:
+        - Key: Project
+          Value: lazy-home
