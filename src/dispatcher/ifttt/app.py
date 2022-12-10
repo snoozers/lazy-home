@@ -5,9 +5,9 @@ from sesame import Key
 
 def lambda_handler(event, context):
     action = get_action(event)
-    execute = get_execution()
+    execution = get_execution()
 
-    execute[action]()
+    execution[action]()
 
     return {
         'statusCode': HTTPStatus.OK,
