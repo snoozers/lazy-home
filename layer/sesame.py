@@ -6,7 +6,6 @@ import os
 from Crypto.Hash import CMAC
 from Crypto.Cipher import AES
 from http import HTTPStatus
-from aws import FrontDoor
 
 BASE_END_POINT = 'https://app.candyhouse.co/api/sesame2'
 API_KEY = os.environ['SESAME_API_KEY']
@@ -20,11 +19,7 @@ class Key():
 
     def unlock(self) -> bool:
         # unlock
-        succeeded = self.executeCommand(83) == HTTPStatus.OK
-        if succeeded:
-            FrontDoor().put_unlock_message()
-
-        return succeeded
+        return self.executeCommand(83) == HTTPStatus.OK
 
     def status(self) -> str:
         self.fetch()

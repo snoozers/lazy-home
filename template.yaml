@@ -196,6 +196,24 @@ Resources:
         - Key: Project
           Value: lazy-home
 
+  UnlockSesameFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/routine/auto_lock/unlock_sesame/
+      FunctionName: UnlockSesame
+      Role: !GetAtt LambdaFunctionRole.Arn
+
+  UnlockSesameFuncLogGroup:
+    Type: AWS::Logs::LogGroup
+    DependsOn:
+      - UnlockSesameFunction
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${UnlockSesameFunction}
+      RetentionInDays: 3
+      Tags:
+        - Key: Project
+          Value: lazy-home
+
   NotifyDoorOpeningFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -325,6 +343,11 @@ Resources:
                   NextState: closed
             OnEnter:
               Events:
+                - EventName: unlock
+                  Condition: 'true'
+                  Actions:
+                    - Lambda:
+                        FunctionArn: !GetAtt UnlockSesameFunction.Arn
                 - EventName: set_left_unlock_timer
                   Condition: 'true'
                   Actions:

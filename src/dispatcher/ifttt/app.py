@@ -1,6 +1,6 @@
 from http import HTTPStatus
 import json
-from sesame import Key
+from aws import FrontDoor
 
 def lambda_handler(event, context):
     action = get_action(event)
@@ -25,9 +25,6 @@ def get_action(event) -> str:
 
 def get_execution() -> dict:
     return {
-        'unlock': lambda: unlock(),
+        'unlock': lambda: FrontDoor().put_unlock_message(),
         'nop': lambda: None
     }
-
-def unlock() -> None:
-    Key().unlock()
