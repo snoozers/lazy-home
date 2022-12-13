@@ -332,10 +332,7 @@ Resources:
               TransitionEvents:
                 - EventName: the_door_was_opened
                   Condition: $input.front_door_input.door.event == 'open'
-                  Actions:
-                    - SetTimer:
-                        TimerName: left_open_timer
-                        Seconds: 60
+                  Actions: []
                   NextState: opened
                 - EventName: left_unlock
                   Condition: timeout("left_unlock_timer")
