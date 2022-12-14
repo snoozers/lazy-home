@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'layer/**'
+      - 'src/**'
+      - 'statemachine/**'
+      - 'template.yaml'
   workflow_dispatch:
     branches:
       - master
